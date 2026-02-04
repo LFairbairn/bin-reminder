@@ -40,7 +40,7 @@
 ### Step 3: Address Selection
 
 ![Address selection page](images/step3-addresspage.png)
-![Address dropdown expanded](images/step3.2-adressdropdown.png)
+![Address dropdown expanded](images/step3.2-addressdropdown.png)
 
 **Page shows:** "Look up your address" with dropdown list filtered by postcode
 
