@@ -24,10 +24,11 @@
 
 ## Phase 4: Web Scraper
 
-- [ ] Install Playwright and browser dependencies
-- [ ] Write basic script to open council website
-- [ ] Add postcode entry automation
-- [ ] Add house number selection from dropdown
+- [x] Install Playwright and browser dependencies
+- [x] Write basic script to open council website
+- [x] Add postcode entry automation
+- [x] Add house number selection from dropdown
+- [ ] Refactor scraper into separate functions
 - [ ] Extract bin schedule table data
 - [ ] Parse extracted data into our models
 - [ ] Handle errors gracefully (site down, invalid postcode, etc.)
@@ -87,7 +88,21 @@
 
 **Phase:** Phase 4 - Web Scraper
 
-**Next step:** Install Playwright and browser dependencies
+**Next step:** Refactor scraper into separate functions
+Good choice. Try splitting your current run function into:
+
+enter_postcode(page, postcode) - fills postcode and clicks search
+select_address(page, address) - clicks dropdown and selects address
+scrape_bin_schedule(url, postcode, address) - the main function that:
+Starts the browser
+Calls the other functions in order
+Closes the browser
+A few tips:
+
+Each helper function takes page as the first parameter (so they can interact with the browser)
+The main function creates the browser/page and passes it to the helpers
+Move the URL constant out of the function call - define it at the top of the file
+Give the refactor a try and I'll review it.
 
 ---
 
