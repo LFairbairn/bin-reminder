@@ -2,13 +2,15 @@ from playwright.sync_api import sync_playwright
 from datetime import datetime
 from models import BinColour, BinCollection
 
+DEFAULT_WAIT_TIME = 1000
 
-def scrape_bin_schedule(playwright, url, postcode, address):
-    browser, page = open_browser(playwright, url)
-    enter_postcode(page, postcode)
-    select_address(page, address)
-    extract_bin_data(page)
-    browser.close()
+def click_and_wait(page, locator: str, wait_time: int = DEFAULT_WAIT_TIME):
+    page.click(locator)
+    page.wait_for_timeout(wait_time)
+
+def fill_and_wait(page, locator: str, value, wait_time: int = DEFAULT_WAIT_TIME):
+    page.fill(locator, value)
+    page.wait_for_timeout(wait_time)
 
 def open_browser(playwright, url):
     #opens browser and navigates to url
@@ -17,21 +19,25 @@ def open_browser(playwright, url):
     page.goto(url)
     return browser, page
 
+def scrape_bin_schedule(playwright, url, postcode, address):
+    browser, page = open_browser(playwright, url)
+    enter_postcode(page, postcode)
+    select_address(page, address)
+    extract_bin_data(page)
+    browser.close()
+
 def enter_postcode(page, postcode):
     #Fill in postcode and click search
-    page.fill("#dform_widget_ps_45M3LET8_txt_postcode", postcode)
-    page.wait_for_timeout(2000)
-    page.click("#dform_widget_ps_3SHSN93_searchbutton")
-    page.wait_for_timeout(2000)
+    fill_and_wait(page, "#dform_widget_ps_45M3LET8_txt_postcode", postcode)
+    click_and_wait(page, "#dform_widget_ps_3SHSN93_searchbutton")
 
 def select_address(page, address):
     #Click dropdown and select address
-    page.click("#select2-dform_widget_ps_3SHSN93_id-container")
-    page.wait_for_timeout(1000)
-    page.click(f".select2-results__option:has-text('{address}')")
-    page.wait_for_timeout(4000)
+    click_and_wait(page, "#select2-dform_widget_ps_3SHSN93_id-container")
+    click_and_wait(page, f".select2-results__option:has-text('{address}')")
 
 def extract_bin_data(page):
+    #extract rows of bin data and parse data for Pydantic model
     rows = page.locator("#dform_widget_table_tab_collections .dform_tr").all()
     collections = []
     for row in rows[1:]:
@@ -47,8 +53,6 @@ def extract_bin_data(page):
         )
         collections.append(collection)
     return collections
-
-
 
 with sync_playwright() as playwright:
     scrape_bin_schedule(playwright, "https://fife.portal.uk.empro.verintcloudservices.com/site/fife/request/bin_calendar", "KY2 6ZS", "54 Sir Thomas Elder Way")
