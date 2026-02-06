@@ -60,20 +60,24 @@
 
 **Table structure:**
 
-| Element | Type | ID | Notes |
-|---------|------|-----|-------|
-| Results table | `<div>` | `dform_widget_table_tab_collections` | Contains all rows |
-| Table rows | `<div>` | class `dform_tr` | One per collection |
-| Colour cell | `<div>` | `data-name="colour"` | Contains `<img>` with bin colour |
-| Date cell | `<div>` | `data-name="date"` | e.g., "Tuesday, February 3, 2026" |
-| Type cell | `<div>` | `data-name="type"` | e.g., "Cans and Plastics / Green Bin" |
+| Element | Type | Selector | Notes |
+|---------|------|----------|-------|
+| Results table | `<div>` | `#dform_widget_table_tab_collections` | Contains all rows |
+| Table rows | `<div>` | `.dform_tr` | First row is header, rest are data |
+| Header cells | `<div>` | `.dform_th` | Column headers (skip this row) |
+| Data cells | `<div>` | `.dform_td` | Actual bin data |
 
-**Columns:**
-1. **Colour** - Image showing bin colour (green, brown, blue, grey)
-2. **Collection Date** - Full date format: "Tuesday, February 3, 2026"
-3. **Bin Type** - Description: "Cans and Plastics / Green Bin"
+**Data cell attributes:**
 
-**Data returned:** 11 rows (11 weeks of collections)
+| Cell | Selector | How to extract |
+|------|----------|----------------|
+| Colour | `[data-name='colour'] img` | `get_attribute("alt")` → "Green", "Brown", "Blue", "Grey" |
+| Date | `[data-name='date']` | `inner_text()` → "Tuesday, February 10, 2026" |
+| Type | `[data-name='type']` | `inner_text()` → "Food and Garden Waste / Brown Bin" |
+
+**Important:** The first row (index 0) is the header row - use `rows[1:]` to skip it.
+
+**Data returned:** ~10-11 rows (varies by date, shows upcoming collections)
 
 ---
 
@@ -98,9 +102,10 @@ These are the image filenames used on the council website (hosted on their CDN).
 |---------|--------|
 | Loading spinners | None |
 | Pop-ups or modals | None |
-| Dynamic page updates | No |
+| Dynamic page updates | None |
 | CAPTCHA or bot detection | None |
 | Select2 dropdown | Yes - needs special handling |
+| Header row in table | First `.dform_tr` is header, skip it |
 
 ---
 
@@ -132,5 +137,9 @@ Tuesday, March 24, 2026     | Landfill / Blue Bin
 4. Wait for address dropdown to load
 5. Interact with Select2 dropdown to select address
 6. Wait for results table to appear
-7. Extract all rows from `#dform_widget_table_tab_collections`
-8. Parse date and bin type from each row
+7. Extract all rows from `#dform_widget_table_tab_collections .dform_tr`
+8. Skip first row (header) using `rows[1:]`
+9. For each data row, extract:
+   - Date: `row.locator("[data-name='date']").inner_text()`
+   - Colour: `row.locator("[data-name='colour'] img").get_attribute("alt")`
+   - Type: `row.locator("[data-name='type']").inner_text()`
