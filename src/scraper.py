@@ -1,4 +1,7 @@
 from playwright.sync_api import sync_playwright
+from datetime import datetime
+from models import BinColour, BinCollection
+
 
 def scrape_bin_schedule(playwright, url, postcode, address):
     browser, page = open_browser(playwright, url)
@@ -30,12 +33,20 @@ def select_address(page, address):
 
 def extract_bin_data(page):
     rows = page.locator("#dform_widget_table_tab_collections .dform_tr").all()
-    print(len(rows))
+    collections = []
     for row in rows[1:]:
         date = row.locator("[data-name='date']").inner_text()
+        parsed_date = datetime.strptime(date, "%A, %B %d, %Y").date()
         colour = row.locator("[data-name='colour'] img").get_attribute("alt")
+        bin_colour = BinColour(colour.lower())
         bin_type = row.locator("[data-name='type']").inner_text()
-        print(date, colour, bin_type)
+        collection = BinCollection(
+            bin_date=parsed_date,
+            colour=bin_colour,
+            bin_type=bin_type
+        )
+        collections.append(collection)
+    return collections
 
 
 

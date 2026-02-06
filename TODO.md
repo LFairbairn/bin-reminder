@@ -30,7 +30,7 @@
 - [x] Add house number selection from dropdown
 - [x] Refactor scraper into separate functions
 - [x] Extract bin schedule table data
-- [ ] Parse extracted data into our models
+- [x] Parse extracted data into our models
 - [ ] Handle errors gracefully (site down, invalid postcode, etc.)
 
 ## Phase 5: Redis Caching
@@ -86,15 +86,17 @@
 
 ## Current Focus
 
-**Phase:** Phase 4 - Web Scraper
+**Phase:** Phase 4 - Web Scraper (nearly complete)
 
-**Next step:** Parse extracted data into Pydantic models
+**Next step:** Handle errors gracefully
 
-The scraper now successfully extracts date, colour, and bin type from the council website. Next we need to:
-1. Convert the date string to a Python date object
-2. Map the colour string to the BinColour enum
-3. Create BinCollection objects
-4. Return a list of collections from the function
+The scraper now successfully:
+- Navigates to the council website
+- Enters postcode and selects address
+- Extracts bin schedule data
+- Parses into BinCollection Pydantic models
+
+Remaining: Add error handling for edge cases (invalid postcode, site down, etc.)
 
 ---
 
