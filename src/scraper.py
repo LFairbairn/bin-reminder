@@ -1,11 +1,11 @@
 from playwright.sync_api import sync_playwright
 from datetime import datetime
-from models import BinColour, BinCollection
+from models import BinColour, BinCollection, ScraperError
 
 DEFAULT_WAIT_TIME = 1000
 
-def click_and_wait(page, locator: str, wait_time: int = DEFAULT_WAIT_TIME):
-    page.click(locator)
+def click_and_wait(page, locator: str, wait_time: int = DEFAULT_WAIT_TIME, timeout: int = 30000):
+    page.click(locator, timeout=timeout)
     page.wait_for_timeout(wait_time)
 
 def fill_and_wait(page, locator: str, value, wait_time: int = DEFAULT_WAIT_TIME):
@@ -16,7 +16,10 @@ def open_browser(playwright, url):
     #opens browser and navigates to url
     browser = playwright.chromium.launch(headless=False)
     page = browser.new_page()
-    page.goto(url)
+    try:
+        page.goto(url)
+    except Exception:
+        raise ScraperError("Could not load council website - check your internet connection")
     return browser, page
 
 def scrape_bin_schedule(playwright, url, postcode, address):
@@ -34,7 +37,10 @@ def enter_postcode(page, postcode):
 def select_address(page, address):
     #Click dropdown and select address
     click_and_wait(page, "#select2-dform_widget_ps_3SHSN93_id-container")
-    click_and_wait(page, f".select2-results__option:has-text('{address}')")
+    try:
+        click_and_wait(page, f".select2-results__option:has-text('{address}')", timeout=5000)
+    except Exception:
+        raise ScraperError("Address not found - check postcode and address are correct")
 
 def extract_bin_data(page):
     #extract rows of bin data and parse data for Pydantic model

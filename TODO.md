@@ -31,7 +31,13 @@
 - [x] Refactor scraper into separate functions
 - [x] Extract bin schedule table data
 - [x] Parse extracted data into our models
-- [ ] Handle errors gracefully (site down, invalid postcode, etc.)
+- [x] Handle errors gracefully (site down, invalid postcode, etc.)
+  - [x] Custom `ScraperError` exception
+  - [x] Page load failures (network/site down)
+  - [x] Address not found (invalid postcode or missing address)
+  - [ ] _(Optional)_ Council page structure changes (selector breakage)
+  - [ ] _(Optional)_ Unexpected bin colour not in enum
+  - [ ] _(Optional)_ Date format changes
 
 ## Phase 5: Redis Caching
 
@@ -86,17 +92,16 @@
 
 ## Current Focus
 
-**Phase:** Phase 4 - Web Scraper (nearly complete)
+**Phase:** Phase 5 - Redis Caching
 
-**Next step:** Handle errors gracefully
+**Completed:** Phase 4 - Web Scraper is fully functional with error handling
 
-The scraper now successfully:
+The scraper now:
 - Navigates to the council website
 - Enters postcode and selects address
 - Extracts bin schedule data
 - Parses into BinCollection Pydantic models
-
-Remaining: Add error handling for edge cases (invalid postcode, site down, etc.)
+- Handles errors gracefully with custom exceptions
 
 ---
 

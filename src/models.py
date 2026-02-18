@@ -20,3 +20,10 @@ class BinScheduleResponse(BaseModel):
     bin_colour: BinColour
     bin_type: str
     cached_at: datetime
+
+
+class ScraperError(Exception):
+    """Base exception for scraper errors"""
+    pass
+
+
