@@ -41,12 +41,12 @@
 
 ## Phase 5: Redis Caching
 
-- [ ] Set up Redis locally (Docker or native)
-- [ ] Create `cache.py` with connection logic
-- [ ] Implement cache key generation
-- [ ] Implement get/set operations
-- [ ] Add TTL configuration (70 days)
-- [ ] Test cache hit/miss scenarios
+- [x] Set up Redis locally (Docker or native)
+- [x] Create `cache.py` with connection logic
+- [x] Implement cache key generation
+- [x] Implement get/set operations
+- [x] Add TTL configuration (70 days)
+- [x] Test cache hit/miss scenarios
 
 ## Phase 6: FastAPI Application
 
@@ -92,16 +92,16 @@
 
 ## Current Focus
 
-**Phase:** Phase 5 - Redis Caching
+**Phase:** Phase 6 - FastAPI Application
 
-**Completed:** Phase 4 - Web Scraper is fully functional with error handling
+**Completed:** Phase 5 - Redis Caching
 
-The scraper now:
-- Navigates to the council website
-- Enters postcode and selects address
-- Extracts bin schedule data
-- Parses into BinCollection Pydantic models
-- Handles errors gracefully with custom exceptions
+The cache now:
+- Connects to Redis (Docker container)
+- Generates unique cache keys from postcode + address
+- Stores bin collections as JSON with 70-day TTL
+- Retrieves and parses cached data back to models
+- Returns None for cache misses
 
 ---
 
