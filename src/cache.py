@@ -1,6 +1,6 @@
 import redis
 import json
-from models import BinCollection
+from .models import BinCollection
 
 #constant calculation for 70 days converted to seconds, days x hours x minutes x seconds
 CACHE_TTL = 70 * 24 * 60 * 60

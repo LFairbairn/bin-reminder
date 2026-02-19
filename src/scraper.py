@@ -1,6 +1,6 @@
 from playwright.sync_api import sync_playwright
 from datetime import datetime
-from models import BinColour, BinCollection, ScraperError
+from .models import BinColour, BinCollection, ScraperError
 
 DEFAULT_WAIT_TIME = 1000
 

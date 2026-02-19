@@ -60,15 +60,15 @@
 ## Phase 7: Docker
 
 - [ ] Write `Dockerfile` for the app
-- [ ] Write `docker-compose.yml` (app + Redis)
+- [x] Write `docker-compose.yml` (Redis + redis-commander for dev)
 - [ ] Test running locally with Docker Compose
 - [ ] Document how to run the project
 
 ## Phase 8: Testing
 
-- [ ] Set up pytest
+- [x] Set up pytest
 - [ ] Write unit tests for data models
-- [ ] Write unit tests for cache operations (mocked Redis)
+- [x] Write integration test for cache operations
 - [ ] Write unit tests for scraper (mocked responses)
 - [ ] Write integration test for full flow
 - [ ] Add test coverage reporting
@@ -96,12 +96,10 @@
 
 **Completed:** Phase 5 - Redis Caching
 
-The cache now:
-- Connects to Redis (Docker container)
-- Generates unique cache keys from postcode + address
-- Stores bin collections as JSON with 70-day TTL
-- Retrieves and parses cached data back to models
-- Returns None for cache misses
+**Also done:**
+- docker-compose.yml with Redis + redis-commander UI
+- Integration test for cache (tests/test_cache.py)
+- Package structure with __init__.py and relative imports
 
 ---
 
