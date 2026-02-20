@@ -26,4 +26,8 @@ def get_schedule(postcode, address):
         return None
     parsed = json.loads(data)
     return [BinCollection(**item) for item in parsed]
+
+#clears all the stored cache
+def clear_cache():
+    redis_client.flushdb()
     

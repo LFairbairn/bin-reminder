@@ -50,12 +50,13 @@
 
 ## Phase 6: FastAPI Application
 
-- [ ] Create basic FastAPI app in `main.py`
-- [ ] Add health check endpoint (`/health`)
-- [ ] Add bin schedule endpoint (`/schedule`)
-- [ ] Wire up scraper and cache
-- [ ] Add request validation (postcode format, etc.)
-- [ ] Test endpoints manually with docs UI
+- [x] Create basic FastAPI app in `main.py`
+- [x] Add health check endpoint (`/health`)
+- [x] Add bin schedule endpoint (`/schedule`)
+- [x] Wire up scraper and cache
+- [x] Add request validation (postcode format, etc.)
+- [x] Test endpoints manually with docs UI
+- [x] Add cache clear endpoint (`/cache` DELETE)
 
 ## Phase 7: Docker
 
@@ -78,12 +79,12 @@
 - [ ] Configure ruff for linting
 - [ ] Configure mypy for type checking
 - [ ] Fix any linting/type errors
-- [ ] Create GitHub Actions workflow
-- [ ] Test CI pipeline runs on push
+- [x] Create GitHub Actions workflow
+- [x] Test CI pipeline runs on push
 
 ## Phase 10: Optional Enhancements
 
-- [ ] Add manual cache refresh endpoint
+- [x] Add manual cache refresh endpoint
 - [ ] Consider simple frontend (or stick with API docs)
 - [ ] Write README with setup instructions
 - [ ] Deploy somewhere (optional)
@@ -92,14 +93,16 @@
 
 ## Current Focus
 
-**Phase:** Phase 6 - FastAPI Application
+**Phase:** Phase 7 - Docker
 
-**Completed:** Phase 5 - Redis Caching
+**Completed:** Phase 6 - FastAPI Application
 
 **Also done:**
 - docker-compose.yml with Redis + redis-commander UI
 - Integration test for cache (tests/test_cache.py)
 - Package structure with __init__.py and relative imports
+- GitHub Actions CI workflow
+- Cache clear endpoint for development
 
 ---
 

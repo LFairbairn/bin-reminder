@@ -26,8 +26,9 @@ def scrape_bin_schedule(playwright, url, postcode, address):
     browser, page = open_browser(playwright, url)
     enter_postcode(page, postcode)
     select_address(page, address)
-    extract_bin_data(page)
+    collections = extract_bin_data(page)
     browser.close()
+    return collections
 
 def enter_postcode(page, postcode):
     #Fill in postcode and click search
@@ -59,7 +60,3 @@ def extract_bin_data(page):
         )
         collections.append(collection)
     return collections
-
-with sync_playwright() as playwright:
-    scrape_bin_schedule(playwright, "https://fife.portal.uk.empro.verintcloudservices.com/site/fife/request/bin_calendar", "KY2 6ZS", "54 Sir Thomas Elder Way")
-
