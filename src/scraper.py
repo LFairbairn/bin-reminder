@@ -1,8 +1,14 @@
+import os
 from playwright.sync_api import sync_playwright
 from datetime import datetime
 from .models import BinColour, BinCollection, ScraperError
 
 DEFAULT_WAIT_TIME = 1000
+
+# Get HEADLESS env var, default to "true" for Docker
+# Convert string to boolean (env vars are always strings)
+headless = os.getenv('HEADLESS', 'true').lower() == 'true'
+
 
 def click_and_wait(page, locator: str, wait_time: int = DEFAULT_WAIT_TIME, timeout: int = 30000):
     page.click(locator, timeout=timeout)
@@ -14,7 +20,7 @@ def fill_and_wait(page, locator: str, value, wait_time: int = DEFAULT_WAIT_TIME)
 
 def open_browser(playwright, url):
     #opens browser and navigates to url
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=headless)
     page = browser.new_page()
     try:
         page.goto(url)

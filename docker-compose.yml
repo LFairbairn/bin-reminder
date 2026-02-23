@@ -11,3 +11,12 @@ services:
       - "8081:8081"
     environment:
       - REDIS_HOSTS=local:redis:6379 
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis

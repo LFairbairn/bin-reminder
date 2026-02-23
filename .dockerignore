@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+
+# Virtual environments
+.venv
+venv
+
+# IDE
+.vscode
+.idea
+
+# Documentation (not needed at runtime)
+*.md
+images/
+
+# Tests (optional - exclude if not running tests in container)
+tests/
+
+# Docker files (don't need to copy these into the container)
+Dockerfile
+docker-compose.yml
+.dockerignore

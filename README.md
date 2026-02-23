@@ -141,6 +141,32 @@ bin-reminder/
 └── README.md
 ```
 
+## Prerequisites
+
+- Docker and Docker Compose
+
+## Getting Started
+
+1. Clone the repository
+2. Run 'docker compose up --build'
+3. Open http://localhost:8000/docs for API documentation
+4. Open http://localhost:8081 for Redis Commander (view and manage cached data)
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check |
+| `/schedule?postcode=XX&address=XX` | GET | Get bin schedule |
+| `/cache` | DELETE | Clear cache (dev only) |
+
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `REDIS_HOST` | `localhost` | Redis server hostname |
+| `HEADLESS` | `true` | Run browser headlessly |
+
 ## Development Approach
 
 - Move slowly and deliberately through each component
