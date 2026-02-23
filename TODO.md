@@ -60,10 +60,10 @@
 
 ## Phase 7: Docker
 
-- [ ] Write `Dockerfile` for the app
+- [x] Write `Dockerfile` for the app
 - [x] Write `docker-compose.yml` (Redis + redis-commander for dev)
-- [ ] Test running locally with Docker Compose
-- [ ] Document how to run the project
+- [x] Test running locally with Docker Compose
+- [x] Document how to run the project
 
 ## Phase 8: Testing
 
@@ -86,23 +86,22 @@
 
 - [x] Add manual cache refresh endpoint
 - [ ] Consider simple frontend (or stick with API docs)
-- [ ] Write README with setup instructions
+- [x] Write README with setup instructions
 - [ ] Deploy somewhere (optional)
 
 ---
 
 ## Current Focus
 
-**Phase:** Phase 7 - Docker
+**Phase:** Phase 8 - Testing
 
-**Completed:** Phase 6 - FastAPI Application
+**Completed:** Phase 7 - Docker
 
 **Also done:**
-- docker-compose.yml with Redis + redis-commander UI
-- Integration test for cache (tests/test_cache.py)
-- Package structure with __init__.py and relative imports
-- GitHub Actions CI workflow
-- Cache clear endpoint for development
+- Dockerfile with Playwright and uv
+- docker-compose.yml with app, Redis, and redis-commander
+- Environment variables for REDIS_HOST and HEADLESS
+- README with setup instructions and API documentation
 
 ---
 

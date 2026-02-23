@@ -148,7 +148,7 @@ bin-reminder/
 ## Getting Started
 
 1. Clone the repository
-2. Run 'docker compose up --build'
+2. Run `docker compose up --build`
 3. Open http://localhost:8000/docs for API documentation
 4. Open http://localhost:8081 for Redis Commander (view and manage cached data)
 
