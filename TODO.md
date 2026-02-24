@@ -68,11 +68,11 @@
 ## Phase 8: Testing
 
 - [x] Set up pytest
-- [ ] Write unit tests for data models
+- [x] Write unit tests for data models
 - [x] Write integration test for cache operations
 - [ ] Write unit tests for scraper (mocked responses)
 - [ ] Write integration test for full flow
-- [ ] Add test coverage reporting
+- [x] Add test coverage reporting
 
 ## Phase 9: Code Quality & CI/CD
 
@@ -82,10 +82,18 @@
 - [x] Create GitHub Actions workflow
 - [x] Test CI pipeline runs on push
 
-## Phase 10: Optional Enhancements
+## Phase 10: Frontend
+
+- [ ] Create static HTML page served by FastAPI
+- [ ] Mobile-first responsive design
+- [ ] Save postcode/address in localStorage
+- [ ] Display next bin prominently with colour coding
+- [ ] Show list of upcoming collections
+- [ ] _(Optional)_ PWA upgrade (manifest.json, service worker, add to home screen)
+
+## Phase 11: Deployment & Extras
 
 - [x] Add manual cache refresh endpoint
-- [ ] Consider simple frontend (or stick with API docs)
 - [x] Write README with setup instructions
 - [ ] Deploy somewhere (optional)
 
@@ -107,4 +115,4 @@
 
 ## Notes
 
-_Space for questions, blockers, or things to revisit_
+- Scraper tests: Use `pytest-mock` to mock Playwright page responses instead of hitting real council website
