@@ -1,5 +1,4 @@
 import os
-from playwright.sync_api import sync_playwright
 from datetime import datetime
 from .models import BinColour, BinCollection, ScraperError
 
