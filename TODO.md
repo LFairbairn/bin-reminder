@@ -70,8 +70,8 @@
 - [x] Set up pytest
 - [x] Write unit tests for data models
 - [x] Write integration test for cache operations
-- [ ] Write unit tests for scraper (mocked responses)
-- [ ] Write integration test for full flow
+- [x] Write unit tests for scraper (mocked responses)
+- [ ] _(Optional)_ Write integration test for full flow
 - [x] Add test coverage reporting
 
 ## Phase 9: Code Quality & CI/CD
@@ -115,4 +115,4 @@
 
 ## Notes
 
-- Scraper tests: Use `pytest-mock` to mock Playwright page responses instead of hitting real council website
+- Scraper tests done using MagicMock for Playwright page responses
