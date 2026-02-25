@@ -84,11 +84,11 @@
 
 ## Phase 10: Frontend
 
-- [ ] Create static HTML page served by FastAPI
-- [ ] Mobile-first responsive design
-- [ ] Save postcode/address in localStorage
-- [ ] Display next bin prominently with colour coding
-- [ ] Show list of upcoming collections
+- [x] Create static HTML page served by FastAPI
+- [x] Mobile-first responsive design
+- [x] Save postcode/address in localStorage
+- [x] Display next bin prominently with colour coding
+- [x] Show list of upcoming collections
 - [ ] _(Optional)_ PWA upgrade (manifest.json, service worker, add to home screen)
 
 ## Phase 11: Deployment & Extras
@@ -101,15 +101,16 @@
 
 ## Current Focus
 
-**Phase:** Phase 10 - Frontend
+**Phase:** Complete
 
-**Completed:** Phase 9 - Code Quality & CI/CD
+**Completed:** Phase 10 - Frontend
 
 **Also done:**
 - Model unit tests with pytest
 - Test coverage reporting (30% threshold)
 - Ruff linting in CI
 - Mypy type checking in CI
+- Static HTML frontend with localStorage
 
 ---
 

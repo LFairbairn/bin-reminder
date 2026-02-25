@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from playwright.sync_api import sync_playwright
 from .cache import get_schedule, set_schedule, CACHE_TTL, clear_cache
 from .scraper import scrape_bin_schedule
@@ -8,6 +10,12 @@ COUNCIL_URL = "https://fife.portal.uk.empro.verintcloudservices.com/site/fife/re
 POSTCODE_PATTERN = r"(?i)^(KY|DD|FK)[0-9]{1,2}\s?[0-9][A-Z]{2}$"
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="src/static"), name="static")
+
+@app.get("/")
+def serve_frontend():
+    return FileResponse("src/static/index.html")
 
 @app.get("/health")
 def health_check():

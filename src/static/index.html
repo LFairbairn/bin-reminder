@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bin Reminder</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        /* Results section */
+        #results {
+            margin-top: 20px;
+        }
+
+        .next-bin {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        #results h2 {
+            margin-bottom: 10px;
+        }
+
+        .bin-date {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .bin-type {
+            margin-top: 5px;
+        }
+
+        /* Bin colours */
+        .green { background-color: #22c55e; }
+        .brown { background-color: #92400e; }
+        .blue { background-color: #3b82f6; }
+        .grey { background-color: #6b7280; }
+
+        /* Upcoming list */
+        h3 {
+            margin-bottom: 10px;
+        }
+
+        .upcoming-list {
+            list-style: none;
+        }
+
+        .upcoming-list li {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            color: white;
+        }
+
+        #clear-address {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bin Reminder</h1>
+    <form id="bin-form">
+        <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input type="text" id="postcode" placeholder="e.g. KY1 1AA">
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="e.g 123 High Street">
+        </div>
+        <button type="submit">Check Bins</button>
+        <a href="#" id="clear-address">Change Address</a>
+    </form>
+
+    <div id="results">
+        <!-- Results will appear here -->
+    </div>
+
+    <script>
+        const form = document.getElementById('bin-form');
+        const resultsDiv = document.getElementById('results');
+
+        // Load saved address from localStorage
+        function loadSavedAddress() {
+            const savedPostcode = localStorage.getItem('binReminder_postcode');
+            const savedAddress = localStorage.getItem('binReminder_address');
+
+            if (savedPostcode) {
+                document.getElementById('postcode').value = savedPostcode;
+            }
+            if (savedAddress) {
+                document.getElementById('address').value = savedAddress;
+            }
+        }
+
+        // Load on page start
+        loadSavedAddress();
+
+        // Clear address handler
+        document.getElementById('clear-address').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('binReminder_postcode');
+            localStorage.removeItem('binReminder_address');
+            document.getElementById('postcode').value = '';
+            document.getElementById('address').value = '';
+            resultsDiv.innerHTML = '';
+        });
+
+        // Helper function to format dates nicely
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-GB', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short'
+            });
+        }
+
+        // Function to display the results
+        function renderResults(data) {
+            const collections = data.collections;
+
+            if (collections.length === 0) {
+                resultsDiv.innerHTML = '<p>No upcoming collections found.</p>';
+                return;
+            }
+
+            const next = collections[0];
+
+            let html = `
+                <h2>Next Collection</h2>
+                <div class="next-bin ${next.colour}">
+                    <p class="bin-date">${formatDate(next.bin_date)}</p>
+                    <p class="bin-type">${next.bin_type}</p>
+                </div>
+            `;
+
+            // Filter to only show collections within the next 7 days
+            const today = new Date();
+            const oneWeekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+            const upcomingThisWeek = collections.slice(1).filter(c => {
+                const collectionDate = new Date(c.bin_date);
+                return collectionDate <= oneWeekFromNow;
+            });
+
+            if (upcomingThisWeek.length > 0) {
+                html += '<h3>Upcoming</h3><ul class="upcoming-list">';
+                for (const c of upcomingThisWeek) {
+                    html += `<li class="${c.colour}">${formatDate(c.bin_date)} - ${c.bin_type}</li>`;
+                }
+                html += '</ul>';
+            }
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Form submit handler
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const postcode = document.getElementById('postcode').value;
+            const address = document.getElementById('address').value;
+
+            // Save to localStorage
+            localStorage.setItem('binReminder_postcode', postcode);
+            localStorage.setItem('binReminder_address', address);
+
+            resultsDiv.innerHTML = '<p>Loading...</p>';
+
+            try {
+                const response = await fetch(`/schedule?postcode=${encodeURIComponent(postcode)}&address=${encodeURIComponent(address)}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Something went wrong');
+                }
+
+                renderResults(data);
+
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
