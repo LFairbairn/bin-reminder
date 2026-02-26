@@ -45,7 +45,7 @@
 - [x] Create `cache.py` with connection logic
 - [x] Implement cache key generation
 - [x] Implement get/set operations
-- [x] Add TTL configuration (70 days)
+- [x] Add TTL configuration (42 days / 6 weeks)
 - [x] Test cache hit/miss scenarios
 
 ## Phase 6: FastAPI Application
@@ -88,7 +88,9 @@
 - [x] Mobile-first responsive design
 - [x] Save postcode/address in localStorage
 - [x] Display next bin prominently with colour coding
-- [x] Show list of upcoming collections
+- [x] Show list of upcoming collections (always at least 1, plus others within 7 days)
+- [x] Group bins by date (blue+brown can share a day)
+- [x] Split colour gradient for combined blue/brown collections
 - [ ] _(Optional)_ PWA upgrade (manifest.json, service worker, add to home screen)
 
 ## Phase 11: Deployment & Extras
@@ -111,9 +113,16 @@
 - Ruff linting in CI
 - Mypy type checking in CI
 - Static HTML frontend with localStorage
+- Frontend groups same-day collections with split colour display
+- App runs on port 8001
 
 ---
 
 ## Notes
 
 - Scraper tests done using MagicMock for Playwright page responses
+- Council website provides ~7 weeks of data (not 11 as initially assumed)
+- Blue and brown bins can go out on the same day (separate rows, same date)
+- Green and grey bins always go out on their own
+- Cache TTL reduced from 70 days to 42 days (6 weeks) to match actual data window
+- Docker Compose maps port 8001 (host) to 8000 (container) to avoid conflicts

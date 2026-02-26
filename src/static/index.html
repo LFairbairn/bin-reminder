@@ -74,6 +74,7 @@
         .brown { background-color: #92400e; }
         .blue { background-color: #3b82f6; }
         .grey { background-color: #6b7280; }
+        .blue-brown {background: linear-gradient(to right, #3b82f6 50%, #92400e 50%)}
 
         /* Upcoming list */
         h3 {
@@ -159,6 +160,32 @@
             });
         }
 
+        // Group Collections by date
+        function groupByDate(collections) {
+            return collections.reduce((groups, item) => {
+                const date = item.bin_date;
+                if (!groups[date]) {
+                    groups[date] = [];
+                }
+                groups[date].push(item);
+                return groups;
+            }, {});
+        }
+
+        // Get CSS class for a group of bins on the same day
+        function getColourClass(bins) {
+            if (bins.length === 1) {
+                return bins[0].colour;
+            }
+            // Blue and brown together
+            return 'blue-brown';
+        }
+
+        // Get display text for bin types
+        function getBinType(bins) {
+            return bins.map(b => b.bin_type).join(' & ');
+        }
+
         // Function to display the results
         function renderResults(data) {
             const collections = data.collections;
@@ -168,29 +195,37 @@
                 return;
             }
 
-            const next = collections[0];
+            // Group by date
+            const grouped = groupByDate(collections);
+            const dates = Object.keys(grouped); //Get Array of dates
+
+            // First date is next collection
+            const firstDate = dates[0];
+            const firstBins = grouped[firstDate];
 
             let html = `
                 <h2>Next Collection</h2>
-                <div class="next-bin ${next.colour}">
-                    <p class="bin-date">${formatDate(next.bin_date)}</p>
-                    <p class="bin-type">${next.bin_type}</p>
+                <div class="next-bin ${getColourClass(firstBins)}">
+                    <p class="bin-date">${formatDate(firstDate)}</p>
+                    <p class="bin-type">${getBinType(firstBins)}</p>
                 </div>
             `;
 
-            // Filter to only show collections within the next 7 days
+            // Get remaining dates - always show at least 1, plus any others within 7 days
+            const remainingDates = dates.slice(1);
             const today = new Date();
             const oneWeekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-            const upcomingThisWeek = collections.slice(1).filter(c => {
-                const collectionDate = new Date(c.bin_date);
-                return collectionDate <= oneWeekFromNow;
+            // Always include first upcoming date, then any others within 7 days
+            const upcomingDates = remainingDates.filter((date, index) => {
+                return index === 0 || new Date(date) <= oneWeekFromNow;
             });
 
-            if (upcomingThisWeek.length > 0) {
+            if (upcomingDates.length > 0) {
                 html += '<h3>Upcoming</h3><ul class="upcoming-list">';
-                for (const c of upcomingThisWeek) {
-                    html += `<li class="${c.colour}">${formatDate(c.bin_date)} - ${c.bin_type}</li>`;
+                for (const date of upcomingDates) {
+                    const bins = grouped[date];
+                    html += `<li class="${getColourClass(bins)}">${formatDate(date)} - ${getBinType(bins)}</li>`;
                 }
                 html += '</ul>';
             }

@@ -3,8 +3,8 @@ import os
 import json
 from .models import BinCollection
 
-#constant calculation for 70 days converted to seconds, days x hours x minutes x seconds
-CACHE_TTL = 70 * 24 * 60 * 60
+#constant calculation for 42 days (6 weeks) converted to seconds, days x hours x minutes x seconds
+CACHE_TTL = 42 * 24 * 60 * 60 #42 days in seconds
 
 redis_host = os.getenv('REDIS_HOST', 'localhost')
 redis_client = redis.Redis(host=redis_host, port=6379, db=0)
