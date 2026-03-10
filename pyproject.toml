@@ -22,3 +22,6 @@ dev = [
 
 [tool.pytest.ini_options]
 addopts = "--cov=src --cov-report=term-missing --cov-fail-under=30"
+markers = [
+    "integration: marks tests that hit external services (deselect with '-m \"not integration\"')"
+]

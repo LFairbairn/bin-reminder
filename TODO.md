@@ -71,7 +71,7 @@
 - [x] Write unit tests for data models
 - [x] Write integration test for cache operations
 - [x] Write unit tests for scraper (mocked responses)
-- [ ] _(Optional)_ Write integration test for full flow
+- [x] Write integration test for full flow
 - [x] Add test coverage reporting
 
 ## Phase 9: Code Quality & CI/CD
@@ -91,7 +91,6 @@
 - [x] Show list of upcoming collections (always at least 1, plus others within 7 days)
 - [x] Group bins by date (blue+brown can share a day)
 - [x] Split colour gradient for combined blue/brown collections
-- [ ] _(Optional)_ PWA upgrade (manifest.json, service worker, add to home screen)
 
 ## Phase 11: Deployment & Extras
 
@@ -99,15 +98,29 @@
 - [x] Write README with setup instructions
 - [ ] Deploy somewhere (optional)
 
+## Phase 12: PWA Upgrade (separate branch)
+
+- [ ] Create `original-webpage` branch to preserve current version
+- [ ] Create `pwa-development` branch from main
+- [ ] Add manifest.json with app metadata and icons
+- [ ] Create service worker for offline support
+- [ ] Add "Add to Home Screen" functionality
+- [ ] Test PWA installation on mobile devices
+
 ---
 
 ## Current Focus
 
-**Phase:** Complete
+**Phase:** Phase 8 & 12 - Testing & PWA Preparation
 
-**Completed:** Phase 10 - Frontend
+**Current Tasks:**
+1. Write integration test for full flow
+2. Commit all changes to main
+3. Create `original-webpage` branch (backup of static HTML version)
+4. Create `pwa-development` branch for PWA work
 
-**Also done:**
+**Previously Completed:**
+- All phases 1-10 complete
 - Model unit tests with pytest
 - Test coverage reporting (30% threshold)
 - Ruff linting in CI
@@ -126,3 +139,4 @@
 - Green and grey bins always go out on their own
 - Cache TTL reduced from 70 days to 42 days (6 weeks) to match actual data window
 - Docker Compose maps port 8001 (host) to 8000 (container) to avoid conflicts
+- Bin types from council: Green (Cans and Plastics), Brown (Food and Garden Waste), Blue (Landfill), Grey (Paper and Cardboard)

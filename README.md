@@ -102,10 +102,10 @@ Returns:
 
 | Colour | Type |
 |--------|------|
-| Green | General Waste |
-| Brown | Food/Garden Waste |
-| Blue | Paper/Card Recycling |
-| Grey | Glass/Cans/Plastic Recycling |
+| Green | Cans and Plastics |
+| Brown | Food and Garden Waste |
+| Blue | Landfill |
+| Grey | Paper and Cardboard |
 
 **Note:** Blue and brown bins can go out on the same day. The frontend displays these with a split colour gradient. Green and grey bins always go out separately.
 

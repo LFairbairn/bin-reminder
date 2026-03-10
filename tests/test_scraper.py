@@ -19,7 +19,7 @@ def test_extract_bin_data():
     mock_colour_locator.get_attribute = MagicMock(return_value="Green")
 
     mock_type_locator = MagicMock()
-    mock_type_locator.inner_text = MagicMock(return_value="Plastic")
+    mock_type_locator.inner_text = MagicMock(return_value="Cans and Plastics")
 
     #Make row.locator() return different mocks based on selector
     def locator_side_effect(selector):
@@ -42,4 +42,4 @@ def test_extract_bin_data():
     assert len(result) == 1
     assert result[0].bin_date == date(2026, 3 , 15)
     assert result[0].colour == BinColour.GREEN
-    assert result[0].bin_type == "Plastic"
+    assert result[0].bin_type == "Cans and Plastics"
